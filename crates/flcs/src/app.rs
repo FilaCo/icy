@@ -1,5 +1,3 @@
-use std::path::PathBuf;
-
 use clap::Parser;
 use iced::{Element, Task, window};
 
