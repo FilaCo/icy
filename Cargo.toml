@@ -1,16 +1,21 @@
-[workspace]
-members = ["crates/*"]
-resolver = "3"
+[package]
+name = "filaco_shell"
+version = "0.1.0"
+edition = "2024"
 
-[workspace.dependencies]
+[dependencies]
 anyhow = { version = "1" }
+chrono = { version = "0.4" }
 clap = { version = "4", features = ["derive"] }
+hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/pop-os/iced.git", branch = "master", features = [
+  "multi-window",
   "tokio",
   "wayland",
   "winit",
-  "image",
 ] }
 serde = { version = "1" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 toml = { version = "0.9" }
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3" }
