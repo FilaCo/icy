@@ -19,8 +19,8 @@ impl FeatureGallery {
         self.inner.get(wid)
     }
 
-    pub fn get_mut(&mut self, wid: &window::Id) -> Option<&mut Feature> {
-        self.inner.get_mut(wid)
+    pub fn get_mut<F>(&mut self) -> Option<&mut F> {
+        todo!()
     }
 }
 

@@ -1,6 +1,6 @@
 use iced::Task;
 
-use crate::feature::clock::Message;
+use crate::feature::windows::Message;
 
 pub enum Action {
     None,
