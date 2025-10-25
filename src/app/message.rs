@@ -1,7 +1,6 @@
-use crate::feature::{clock, windows};
+use crate::feature::clock;
 
 #[derive(Debug, Copy, Clone)]
 pub enum Message {
     Clock(clock::Message),
-    Windows(windows::Message),
 }

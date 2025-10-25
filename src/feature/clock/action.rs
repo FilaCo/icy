@@ -1,8 +1,0 @@
-use iced::Task;
-
-use crate::feature::clock::Message;
-
-pub enum Action {
-    None,
-    Run(Task<Message>),
-}

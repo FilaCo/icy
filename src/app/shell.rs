@@ -1,62 +1,50 @@
+use std::{collections::BTreeMap, sync::Arc, time::Duration};
+
 use clap::Parser;
-use iced::{Element, Task, widget::horizontal_space, window};
+use iced::{Element, Subscription, Task, widget};
 
 use crate::{
     Cli,
     app::Message,
-    feature::{Feature, FeatureGallery, clock},
+    feature::{Clock, Feature, clock},
+    util::SurfaceId,
 };
-use Feature::*;
 
 #[derive(Debug)]
 pub struct Shell {
-    gallery: FeatureGallery,
+    sid_to_feat: BTreeMap<SurfaceId, Arc<Feature>>,
+    clock: Clock,
 }
 
 impl Shell {
     pub fn new() -> (Self, Task<Message>) {
         tracing_subscriber::fmt::init();
         let _ = Cli::parse();
-        let gallery = FeatureGallery::new();
-        (Self { gallery }, Task::none())
+
+        let sid_to_feat = BTreeMap::new();
+        let clock = Clock::new(Duration::from_secs(1));
+        (Self { sid_to_feat, clock }, Task::none())
     }
 
-    pub fn title(&self, wid: window::Id) -> String {
-        if let Some(f) = self.gallery.get(&wid) {
-            match f {
-                _ => {}
-            }
-        }
-
+    pub fn title(&self, id: SurfaceId) -> String {
         "filaco_shell".into()
     }
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
             Message::Clock(clock_msg) => {
-                if let Some(clock) = self.gallery.get_mut::<clock::Clock>() {
-                    match clock.update(clock_msg) {
-                        clock::Action::Run(task) => {
-                            return task.map(Message::Clock);
-                        }
-                        _ => {}
-                    }
-                }
+                return self.clock.update(clock_msg).map(Message::Clock);
             }
-            Message::Windows(win_msg) => todo!(),
+            _ => {}
         }
         Task::none()
     }
 
-    pub fn view(&self, wid: window::Id) -> Element<Message> {
-        if let Some(f) = self.gallery.get(&wid) {
-            match f {
-                Clock(c) => {
-                    return c.view().map(Message::Clock);
-                }
-                _ => {}
-            }
-        }
-        horizontal_space().into()
+    pub fn view(&self, id: SurfaceId) -> Element<Message> {
+        widget::horizontal_space().into()
+    }
+
+    pub fn subscription(&self) -> Subscription<Message> {
+        Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
     }
 }

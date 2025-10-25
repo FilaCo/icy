@@ -1,9 +1,7 @@
-mod action;
 mod message;
 
 use std::time::Duration;
 
-pub use action::*;
 use chrono::{DateTime, Local};
 use iced::{Element, Subscription, Task, time, widget};
 pub use message::*;
@@ -11,35 +9,31 @@ pub use message::*;
 #[derive(Debug)]
 pub struct Clock {
     now: DateTime<Local>,
-    precision: Duration,
+    freq: Duration,
 }
 
 impl Clock {
-    pub fn new(precision: Duration) -> Self {
+    pub fn new(freq: Duration) -> Self {
         let now = Local::now();
 
-        Self { now, precision }
+        Self { now, freq }
     }
 
-    pub fn update(&mut self, msg: Message) -> Action {
+    pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::Set(dt) => {
-                self.now = dt;
+            Message::Tick => {
+                self.now = Local::now();
             }
         }
 
-        Action::None
+        Task::none()
     }
 
     pub fn view(&self) -> Element<Message> {
-        widget::column![widget::text!["{:?}", self.now]].into()
+        todo!()
     }
 
-    pub fn subscription(&self) -> Subscription<Action> {
-        time::every(self.precision).map(|_| Action::Run(Self::set_clock()))
-    }
-
-    fn set_clock() -> Task<Message> {
-        Task::future(async { Message::Set(Local::now()) })
+    pub fn subscription(&self) -> Subscription<Message> {
+        time::every(self.freq).map(|_| Message::Tick)
     }
 }
