@@ -32,15 +32,17 @@ impl Shell {
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::Clock(clock_msg) => {
-                return self.clock.update(clock_msg).map(Message::Clock);
-            }
-            _ => {}
+            Message::Clock(clock_msg) => self.clock.update(clock_msg).map(Message::Clock),
         }
-        Task::none()
     }
 
     pub fn view(&self, id: SurfaceId) -> Element<Message> {
+        if let Some(feat) = self.sid_to_feat.get(&id).map(|f| f.as_ref()) {
+            match feat {
+                Feature::Clock(clock) => return clock.view().map(Message::Clock),
+            }
+        }
+
         widget::horizontal_space().into()
     }
 
