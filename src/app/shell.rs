@@ -6,7 +6,7 @@ use iced::{Element, Subscription, Task, widget};
 use crate::{
     Cli,
     app::Message,
-    feature::{Clock, Feature, clock},
+    feature::{Clock, Feature, Panels},
     util::SurfaceId,
 };
 
@@ -23,6 +23,7 @@ impl Shell {
 
         let sid_to_feat = BTreeMap::new();
         let clock = Clock::new(Duration::from_secs(1));
+        let panels = Panels::new();
         (Self { sid_to_feat, clock }, Task::none())
     }
 
@@ -40,6 +41,7 @@ impl Shell {
         if let Some(feat) = self.sid_to_feat.get(&id).map(|f| f.as_ref()) {
             match feat {
                 Feature::Clock(clock) => return clock.view().map(Message::Clock),
+                Feature::Panels(panels) => return panels.view().map(Message::Panels),
             }
         }
 
