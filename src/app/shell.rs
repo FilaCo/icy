@@ -6,7 +6,7 @@ use iced::{Element, Subscription, Task, widget};
 use crate::{
     Cli,
     app::Message,
-    feature::{Clock, Feature, Panels},
+    feature::{Clock, Feature, Panels, panels},
     util::SurfaceId,
 };
 
@@ -14,6 +14,7 @@ use crate::{
 pub struct Shell {
     sid_to_feat: BTreeMap<SurfaceId, Arc<Feature>>,
     clock: Clock,
+    panels: Panels,
 }
 
 impl Shell {
@@ -24,7 +25,14 @@ impl Shell {
         let sid_to_feat = BTreeMap::new();
         let clock = Clock::new(Duration::from_secs(1));
         let panels = Panels::new();
-        (Self { sid_to_feat, clock }, Task::none())
+        (
+            Self {
+                sid_to_feat,
+                clock,
+                panels,
+            },
+            Task::none(),
+        )
     }
 
     pub fn title(&self, id: SurfaceId) -> String {
@@ -34,6 +42,10 @@ impl Shell {
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
             Message::Clock(clock_msg) => self.clock.update(clock_msg).map(Message::Clock),
+            Message::Panels(panels_msg) => match self.panels.update(panels_msg) {
+                panels::Action::None => Task::none(),
+                panels::Action::Run(task) => task.map(Message::Panels),
+            },
         }
     }
 

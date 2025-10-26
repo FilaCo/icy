@@ -1,3 +1,4 @@
+pub mod battery;
 pub mod clock;
 pub mod panels;
 pub mod wallpaper;

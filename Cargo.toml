@@ -16,6 +16,7 @@ iced = { git = "https://github.com/pop-os/iced.git", branch = "master", features
 ] }
 iced_aw = { version = "0.12" }
 serde = { version = "1" }
+starship-battery = { version = "0.10" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 toml = { version = "0.9" }
 tracing = { version = "0.1" }
