@@ -6,7 +6,7 @@ use iced::{Element, Subscription, Task, widget};
 use crate::{
     Cli,
     app::Message,
-    feature::{Clock, Feature, Panels, panels},
+    feature::{Clock, Feature, Panels, clock, panels},
     util::SurfaceId,
 };
 
@@ -23,15 +23,24 @@ impl Shell {
         let _ = Cli::parse();
 
         let sid_to_feat = BTreeMap::new();
-        let clock = Clock::new(Duration::from_secs(1));
-        let panels = Panels::new();
+        let mut tasks = vec![];
+
+        // Init clock feature
+        // TODO: set duration from config
+        let (clock, clock_action) = Clock::new(Duration::from_secs(1));
+        tasks.push(clock_action_to_message(clock_action));
+
+        // Init panels feature
+        let (panels, panels_action) = Panels::new();
+        tasks.push(panels_action_to_message(panels_action));
+
         (
             Self {
                 sid_to_feat,
                 clock,
                 panels,
             },
-            Task::none(),
+            Task::batch(tasks),
         )
     }
 
@@ -41,11 +50,8 @@ impl Shell {
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::Clock(clock_msg) => self.clock.update(clock_msg).map(Message::Clock),
-            Message::Panels(panels_msg) => match self.panels.update(panels_msg) {
-                panels::Action::None => Task::none(),
-                panels::Action::Run(task) => task.map(Message::Panels),
-            },
+            Message::Clock(clock_msg) => clock_action_to_message(self.clock.update(clock_msg)),
+            Message::Panels(panels_msg) => panels_action_to_message(self.panels.update(panels_msg)),
         }
     }
 
@@ -62,5 +68,19 @@ impl Shell {
 
     pub fn subscription(&self) -> Subscription<Message> {
         Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
+    }
+}
+
+fn clock_action_to_message(clock_action: clock::Action) -> Task<Message> {
+    match clock_action {
+        clock::Action::None => Task::none(),
+        clock::Action::Run(task) => task.map(Message::Clock),
+    }
+}
+
+fn panels_action_to_message(panels_action: panels::Action) -> Task<Message> {
+    match panels_action {
+        panels::Action::None => Task::none(),
+        panels::Action::Run(task) => task.map(Message::Panels),
     }
 }

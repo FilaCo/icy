@@ -3,7 +3,7 @@ use std::time::Duration;
 use chrono::{DateTime, Local};
 use iced::{Element, Subscription, Task, time};
 
-use crate::feature::clock::Message;
+use crate::feature::clock::{Action, Message};
 
 #[derive(Debug)]
 pub struct Clock {
@@ -12,20 +12,20 @@ pub struct Clock {
 }
 
 impl Clock {
-    pub fn new(freq: Duration) -> Self {
+    pub fn new(freq: Duration) -> (Self, Action) {
         let now = Local::now();
 
-        Self { now, freq }
+        (Self { now, freq }, Action::None)
     }
 
-    pub fn update(&mut self, msg: Message) -> Task<Message> {
+    pub fn update(&mut self, msg: Message) -> Action {
         match msg {
             Message::Tick => {
                 self.now = Local::now();
             }
         }
 
-        Task::none()
+        Action::None
     }
 
     pub fn view(&self) -> Element<Message> {
