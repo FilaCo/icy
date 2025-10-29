@@ -1,7 +1,10 @@
 use std::{collections::BTreeMap, sync::Arc, time::Duration};
 
 use clap::Parser;
-use iced::{Element, Subscription, Task, widget};
+use iced::{
+    Element, Subscription, Task,
+    platform_specific::shell::commands::layer_surface::get_layer_surface, widget,
+};
 
 use crate::{
     Cli,
@@ -50,6 +53,7 @@ impl Shell {
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
+            Message::OpenSurface => self.open_surface(),
             Message::Clock(clock_msg) => clock_action_to_message(self.clock.update(clock_msg)),
             Message::Panels(panels_msg) => panels_action_to_message(self.panels.update(panels_msg)),
         }
@@ -69,6 +73,10 @@ impl Shell {
     pub fn subscription(&self) -> Subscription<Message> {
         Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
     }
+
+    fn open_surface(&mut self) -> Task<Message> {
+        let id = SurfaceId::unique();
+    }
 }
 
 fn clock_action_to_message(clock_action: clock::Action) -> Task<Message> {
@@ -82,5 +90,6 @@ fn panels_action_to_message(panels_action: panels::Action) -> Task<Message> {
     match panels_action {
         panels::Action::None => Task::none(),
         panels::Action::Run(task) => task.map(Message::Panels),
+        panels::Action::OpenSurface => Task::done(Message::OpenSurface),
     }
 }
