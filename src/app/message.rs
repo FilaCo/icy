@@ -1,8 +1,8 @@
-use crate::feature::{clock, panels};
+use crate::feature::{Feature, clock, panels};
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub enum Message {
-    OpenSurface,
+    OpenSurface(Feature),
     Clock(clock::Message),
     Panels(panels::Message),
 }

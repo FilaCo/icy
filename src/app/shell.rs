@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, sync::Arc, time::Duration};
+use std::{collections::BTreeMap, time::Duration};
 
 use clap::Parser;
 use iced::{
@@ -15,7 +15,7 @@ use crate::{
 
 #[derive(Debug)]
 pub struct Shell {
-    sid_to_feat: BTreeMap<SurfaceId, Arc<Feature>>,
+    sid_to_feat: BTreeMap<SurfaceId, Feature>,
     clock: Clock,
     panels: Panels,
 }
@@ -53,17 +53,17 @@ impl Shell {
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::OpenSurface => self.open_surface(),
+            Message::OpenSurface(feature) => todo!(),
             Message::Clock(clock_msg) => clock_action_to_message(self.clock.update(clock_msg)),
             Message::Panels(panels_msg) => panels_action_to_message(self.panels.update(panels_msg)),
         }
     }
 
     pub fn view(&self, id: SurfaceId) -> Element<Message> {
-        if let Some(feat) = self.sid_to_feat.get(&id).map(|f| f.as_ref()) {
+        if let Some(feat) = self.sid_to_feat.get(&id) {
             match feat {
-                Feature::Clock(clock) => return clock.view().map(Message::Clock),
-                Feature::Panels(panels) => return panels.view().map(Message::Panels),
+                Feature::Clock => return self.clock.view().map(Message::Clock),
+                Feature::Panels => return self.panels.view().map(Message::Panels),
             }
         }
 
@@ -71,11 +71,13 @@ impl Shell {
     }
 
     pub fn subscription(&self) -> Subscription<Message> {
-        Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
+        todo!()
     }
 
     fn open_surface(&mut self) -> Task<Message> {
         let id = SurfaceId::unique();
+
+        todo!()
     }
 }
 
@@ -90,6 +92,6 @@ fn panels_action_to_message(panels_action: panels::Action) -> Task<Message> {
     match panels_action {
         panels::Action::None => Task::none(),
         panels::Action::Run(task) => task.map(Message::Panels),
-        panels::Action::OpenSurface => Task::done(Message::OpenSurface),
+        panels::Action::OpenSurface => Task::done(Message::OpenSurface(Feature::Panels)),
     }
 }
