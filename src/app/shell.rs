@@ -15,13 +15,13 @@ use crate::{
 };
 
 #[derive(Debug)]
-pub struct Shell<'shell> {
+pub struct Shell {
     sid_to_feat: BTreeMap<LayerSurfaceId, Feature>,
     clock: Clock,
-    panels: Panels<'shell>,
+    panels: Panels,
 }
 
-impl<'shell> Shell<'shell> {
+impl Shell {
     pub fn new() -> (Self, Task<Message>) {
         tracing_subscriber::fmt::init();
         let _ = Cli::parse();
@@ -54,7 +54,7 @@ impl<'shell> Shell<'shell> {
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::OpenLayerSurface(feat) => self.open_surface(feat),
+            Message::OpenLayerSurface { feat, settings } => self.open_surface(feat, settings),
             Message::LayerSurfaceOpened { id, feat } => self.layer_surface_opened(id, feat),
             Message::Clock(clock_msg) => clock_action_to_message(self.clock.update(clock_msg)),
             Message::Panels(panels_msg) => panels_action_to_message(self.panels.update(panels_msg)),
@@ -76,14 +76,8 @@ impl<'shell> Shell<'shell> {
         Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
     }
 
-    fn open_surface(&mut self, feat: Feature) -> Task<Message> {
-        let id = LayerSurfaceId::unique();
-
-        get_layer_surface(SctkLayerSurfaceSettings {
-            id,
-            ..Default::default()
-        })
-        .map(move |id| Message::LayerSurfaceOpened { id, feat })
+    fn open_surface(&mut self, feat: Feature, settings: SctkLayerSurfaceSettings) -> Task<Message> {
+        get_layer_surface(settings).map(move |id| Message::LayerSurfaceOpened { id, feat })
     }
 
     fn layer_surface_opened(&mut self, id: LayerSurfaceId, feat: Feature) -> Task<Message> {
@@ -106,6 +100,9 @@ fn panels_action_to_message(panels_action: panels::Action) -> Task<Message> {
     match panels_action {
         panels::Action::None => Task::none(),
         panels::Action::Run(task) => task.map(Message::Panels),
-        panels::Action::OpenSurface => Task::done(Message::OpenLayerSurface(Feature::Panels)),
+        panels::Action::OpenLayerSurface(settings) => Task::done(Message::OpenLayerSurface {
+            feat: Feature::Panels,
+            settings,
+        }),
     }
 }
