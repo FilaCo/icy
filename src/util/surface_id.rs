@@ -1,3 +1,3 @@
 use iced::window;
 
-pub type SurfaceId = window::Id;
+pub type LayerSurfaceId = window::Id;

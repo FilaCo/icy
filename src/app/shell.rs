@@ -3,24 +3,25 @@ use std::{collections::BTreeMap, time::Duration};
 use clap::Parser;
 use iced::{
     Element, Subscription, Task,
-    platform_specific::shell::commands::layer_surface::get_layer_surface, widget,
+    platform_specific::shell::commands::layer_surface::get_layer_surface,
+    runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings, widget,
 };
 
 use crate::{
     Cli,
     app::Message,
     feature::{Clock, Feature, Panels, clock, panels},
-    util::SurfaceId,
+    util::LayerSurfaceId,
 };
 
 #[derive(Debug)]
-pub struct Shell {
-    sid_to_feat: BTreeMap<SurfaceId, Feature>,
+pub struct Shell<'shell> {
+    sid_to_feat: BTreeMap<LayerSurfaceId, Feature>,
     clock: Clock,
-    panels: Panels,
+    panels: Panels<'shell>,
 }
 
-impl Shell {
+impl<'shell> Shell<'shell> {
     pub fn new() -> (Self, Task<Message>) {
         tracing_subscriber::fmt::init();
         let _ = Cli::parse();
@@ -47,19 +48,20 @@ impl Shell {
         )
     }
 
-    pub fn title(&self, id: SurfaceId) -> String {
+    pub fn title(&self, id: LayerSurfaceId) -> String {
         "filaco_shell".into()
     }
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
-            Message::OpenSurface(feature) => todo!(),
+            Message::OpenLayerSurface(feat) => self.open_surface(feat),
+            Message::LayerSurfaceOpened { id, feat } => self.layer_surface_opened(id, feat),
             Message::Clock(clock_msg) => clock_action_to_message(self.clock.update(clock_msg)),
             Message::Panels(panels_msg) => panels_action_to_message(self.panels.update(panels_msg)),
         }
     }
 
-    pub fn view(&self, id: SurfaceId) -> Element<Message> {
+    pub fn view(&self, id: LayerSurfaceId) -> Element<Message> {
         if let Some(feat) = self.sid_to_feat.get(&id) {
             match feat {
                 Feature::Clock => return self.clock.view().map(Message::Clock),
@@ -71,13 +73,25 @@ impl Shell {
     }
 
     pub fn subscription(&self) -> Subscription<Message> {
-        todo!()
+        Subscription::batch(vec![self.clock.subscription().map(Message::Clock)])
     }
 
-    fn open_surface(&mut self) -> Task<Message> {
-        let id = SurfaceId::unique();
+    fn open_surface(&mut self, feat: Feature) -> Task<Message> {
+        let id = LayerSurfaceId::unique();
 
-        todo!()
+        get_layer_surface(SctkLayerSurfaceSettings {
+            id,
+            ..Default::default()
+        })
+        .map(move |id| Message::LayerSurfaceOpened { id, feat })
+    }
+
+    fn layer_surface_opened(&mut self, id: LayerSurfaceId, feat: Feature) -> Task<Message> {
+        self.sid_to_feat.insert(id, feat);
+        match feat {
+            Feature::Clock => todo!(),
+            Feature::Panels => Task::done(Message::Panels(panels::Message::LayerSurfaceOpened(id))),
+        }
     }
 }
 
@@ -92,6 +106,6 @@ fn panels_action_to_message(panels_action: panels::Action) -> Task<Message> {
     match panels_action {
         panels::Action::None => Task::none(),
         panels::Action::Run(task) => task.map(Message::Panels),
-        panels::Action::OpenSurface => Task::done(Message::OpenSurface(Feature::Panels)),
+        panels::Action::OpenSurface => Task::done(Message::OpenLayerSurface(Feature::Panels)),
     }
 }

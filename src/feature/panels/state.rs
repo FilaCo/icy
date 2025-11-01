@@ -1,16 +1,18 @@
-use iced::{
-    Element, Task, platform_specific::shell::commands::layer_surface::get_layer_surface,
-    runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings,
+use iced::Element;
+
+use crate::feature::{
+    Clock,
+    panels::{Action, Message},
 };
 
-use crate::feature::panels::{Action, Message};
-
 #[derive(Debug)]
-pub struct Panels {}
+pub struct Panels<'shell> {
+    clock: &'shell Clock,
+}
 
-impl Panels {
-    pub fn new() -> (Self, Action) {
-        todo!()
+impl<'shell> Panels<'shell> {
+    pub fn new(clock: &'shell Clock) -> (Self, Action) {
+        (Self { clock }, Action::OpenSurface)
     }
 
     pub fn update(&mut self, msg: Message) -> Action {
