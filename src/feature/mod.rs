@@ -1,9 +1,10 @@
 pub mod battery;
 pub mod clock;
-mod feature_enum;
-pub mod panels;
-pub mod wallpaper;
+pub mod edges;
+mod layer_surface_feature;
+pub mod wallpapers;
 
 pub use clock::Clock;
-pub use feature_enum::*;
-pub use panels::Panels;
+pub use edges::Edges;
+pub use layer_surface_feature::*;
+pub use wallpapers::Wallpapers;

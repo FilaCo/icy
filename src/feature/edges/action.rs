@@ -1,6 +1,6 @@
 use iced::{Task, runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings};
 
-use crate::feature::panels::Message;
+use crate::feature::edges::Message;
 
 pub enum Action {
     None,

@@ -4,5 +4,6 @@ use filaco_shell::Shell;
 async fn main() -> iced::Result {
     iced::daemon(Shell::title, Shell::update, Shell::view)
         .subscription(Shell::subscription)
+        .theme(Shell::theme)
         .run_with(Shell::new)
 }

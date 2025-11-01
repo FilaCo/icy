@@ -1,19 +1,19 @@
 use iced::{
-    Element, Length,
+    Color, Element, Length, Theme, color,
     platform_specific::shell::commands::subsurface::Layer,
     runtime::platform_specific::wayland::layer_surface::{IcedOutput, SctkLayerSurfaceSettings},
+    theme::Palette,
 };
-use tracing::info;
 
 use crate::{
-    feature::panels::{Action, Message},
+    feature::edges::{Action, Message},
     util::LayerSurfaceId,
 };
 
 #[derive(Debug)]
-pub struct Panels {}
+pub struct Edges {}
 
-impl Panels {
+impl Edges {
     pub fn new() -> (Self, Action) {
         (
             Self {},
@@ -22,9 +22,14 @@ impl Panels {
                 // TODO: size from monitors
                 size: Some((Some(1920), Some(1080))),
                 layer: Layer::Bottom,
+                namespace: "filaco_shell::edges".into(),
                 ..Default::default()
             }),
         )
+    }
+
+    pub fn title(&self) -> String {
+        "edges".into()
     }
 
     pub fn update(&mut self, msg: Message) -> Action {
@@ -34,10 +39,19 @@ impl Panels {
     }
 
     pub fn view(&self) -> Element<Message> {
-        let row = iced::widget::row!["left", "top", "right", "bottom"];
-        iced::widget::Container::new(row)
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .into()
+        "Edges".into()
+    }
+
+    pub fn theme(&self) -> Theme {
+        Theme::custom(
+            "liquid".into(),
+            Palette {
+                background: Color::TRANSPARENT,
+                text: color!(0x9aa5ce),    // Text
+                primary: color!(0x2ac3de), // Blue
+                success: color!(0x9ece6a), // Green
+                danger: color!(0xf7768e),  // Red
+            },
+        )
     }
 }

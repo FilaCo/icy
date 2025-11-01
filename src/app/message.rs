@@ -1,20 +1,21 @@
 use iced::runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings;
 
 use crate::{
-    feature::{Feature, clock, panels},
+    feature::{LayerSurfaceFeature, clock, edges, wallpapers},
     util::LayerSurfaceId,
 };
 
 #[derive(Debug, Clone)]
 pub enum Message {
     OpenLayerSurface {
-        feat: Feature,
+        feat: LayerSurfaceFeature,
         settings: SctkLayerSurfaceSettings,
     },
     LayerSurfaceOpened {
         id: LayerSurfaceId,
-        feat: Feature,
+        feat: LayerSurfaceFeature,
     },
     Clock(clock::Message),
-    Panels(panels::Message),
+    Edges(edges::Message),
+    Wallpapers(wallpapers::Message),
 }
