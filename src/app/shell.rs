@@ -6,6 +6,7 @@ use iced::{
     platform_specific::shell::commands::layer_surface::get_layer_surface,
     runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings, widget,
 };
+use tracing::info;
 
 use crate::{
     Cli,
@@ -53,6 +54,7 @@ impl Shell {
     }
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
+        info!("wtf1 {:?}", msg);
         match msg {
             Message::OpenLayerSurface { feat, settings } => self.open_surface(feat, settings),
             Message::LayerSurfaceOpened { id, feat } => self.layer_surface_opened(id, feat),
@@ -62,6 +64,8 @@ impl Shell {
     }
 
     pub fn view(&self, id: LayerSurfaceId) -> Element<Message> {
+        info!("main view with id: {:?}", id);
+        info!("sid_to_feat: {}", self.sid_to_feat.len());
         if let Some(feat) = self.sid_to_feat.get(&id) {
             match feat {
                 Feature::Clock => return self.clock.view().map(Message::Clock),
@@ -69,6 +73,7 @@ impl Shell {
             }
         }
 
+        info!("wtf");
         widget::horizontal_space().into()
     }
 
@@ -81,6 +86,7 @@ impl Shell {
     }
 
     fn layer_surface_opened(&mut self, id: LayerSurfaceId, feat: Feature) -> Task<Message> {
+        info!("wtf!");
         self.sid_to_feat.insert(id, feat);
         match feat {
             Feature::Clock => todo!(),

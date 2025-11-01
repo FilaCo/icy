@@ -1,7 +1,9 @@
 use iced::{
-    Element, platform_specific::shell::commands::subsurface::Layer,
-    runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings,
+    Element, Length,
+    platform_specific::shell::commands::subsurface::Layer,
+    runtime::platform_specific::wayland::layer_surface::{IcedOutput, SctkLayerSurfaceSettings},
 };
+use tracing::info;
 
 use crate::{
     feature::panels::{Action, Message},
@@ -32,6 +34,11 @@ impl Panels {
     }
 
     pub fn view(&self) -> Element<Message> {
-        todo!()
+        info!("draw panels");
+        let row = iced::widget::row!["left", "top", "right", "bottom"];
+        iced::widget::Container::new(row)
+            .width(Length::Fill)
+            .height(Length::Fill)
+            .into()
     }
 }
