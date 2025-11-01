@@ -54,7 +54,6 @@ impl Shell {
     }
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
-        info!("wtf1 {:?}", msg);
         match msg {
             Message::OpenLayerSurface { feat, settings } => self.open_surface(feat, settings),
             Message::LayerSurfaceOpened { id, feat } => self.layer_surface_opened(id, feat),
@@ -64,8 +63,6 @@ impl Shell {
     }
 
     pub fn view(&self, id: LayerSurfaceId) -> Element<Message> {
-        info!("main view with id: {:?}", id);
-        info!("sid_to_feat: {}", self.sid_to_feat.len());
         if let Some(feat) = self.sid_to_feat.get(&id) {
             match feat {
                 Feature::Clock => return self.clock.view().map(Message::Clock),
@@ -73,7 +70,6 @@ impl Shell {
             }
         }
 
-        info!("wtf");
         widget::horizontal_space().into()
     }
 
@@ -82,11 +78,16 @@ impl Shell {
     }
 
     fn open_surface(&mut self, feat: Feature, settings: SctkLayerSurfaceSettings) -> Task<Message> {
-        get_layer_surface(settings).map(move |id| Message::LayerSurfaceOpened { id, feat })
+        let id = settings.id;
+        // We can't just map the result task of get_layer_surface(), because it leads the following
+        // not executed
+        Task::batch(vec![
+            get_layer_surface(settings),
+            Task::done(Message::LayerSurfaceOpened { id, feat }),
+        ])
     }
 
     fn layer_surface_opened(&mut self, id: LayerSurfaceId, feat: Feature) -> Task<Message> {
-        info!("wtf!");
         self.sid_to_feat.insert(id, feat);
         match feat {
             Feature::Clock => todo!(),

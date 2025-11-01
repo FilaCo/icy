@@ -34,7 +34,6 @@ impl Panels {
     }
 
     pub fn view(&self) -> Element<Message> {
-        info!("draw panels");
         let row = iced::widget::row!["left", "top", "right", "bottom"];
         iced::widget::Container::new(row)
             .width(Length::Fill)
