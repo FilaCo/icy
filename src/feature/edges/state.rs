@@ -1,8 +1,6 @@
 use iced::{
-    Color, Element, Length, Theme, color,
-    platform_specific::shell::commands::subsurface::Layer,
-    runtime::platform_specific::wayland::layer_surface::{IcedOutput, SctkLayerSurfaceSettings},
-    theme::Palette,
+    Color, Element, Theme, color, platform_specific::shell::commands::subsurface::Layer,
+    runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings, theme::Palette,
 };
 
 use crate::{
@@ -39,7 +37,7 @@ impl Edges {
     }
 
     pub fn view(&self) -> Element<Message> {
-        "Edges".into()
+        "edges".into()
     }
 
     pub fn theme(&self) -> Theme {
