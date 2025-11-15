@@ -10,7 +10,9 @@ use clap::{
 
 #[derive(Parser, Debug)]
 #[command(version, about, styles=CLI_STYLING)]
-pub struct Cli {}
+pub struct Cli {
+    pub config: Option<PathBuf>,
+}
 
 // const NOP: Style = Style::new();
 const HEADER: Style = AnsiColor::Green.on_default().effects(Effects::BOLD);
