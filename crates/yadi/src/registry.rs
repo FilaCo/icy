@@ -47,6 +47,7 @@ impl RegistryBuilder {
     }
 
     pub fn build(self) -> Result<Registry, RegistryError> {
+        // TODO: validation
         Ok(Registry::new(self.inner))
     }
 
@@ -70,3 +71,6 @@ impl Default for RegistryBuilder {
         Self::new()
     }
 }
+
+#[cfg(test)]
+mod tests {}

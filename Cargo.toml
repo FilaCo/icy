@@ -4,9 +4,26 @@ members = ["crates/*"]
 
 [workspace.dependencies]
 anyhow = { version = "1" }
+chrono = { version = "0.4" }
+clap = { version = "4" }
+dlopen2 = { version = "0.8" }
+fs_cli = { path = "crates/fs_cli" }
+hyprland = { version = "0.4.0-beta.3" }
+iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
+iced_aw = { version = "0.12" }
+libc = { version = "0.2" }
+proc-macro2 = { version = "1" }
+quote = { version = "1" }
+serde = { version = "1" }
+starship-battery = { version = "0.10" }
+syn = { version = "2" }
 thiserror = { version = "2" }
+tokio = { version = "1" }
+toml = { version = "0.9" }
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3" }
+yadi = { path = "crates/yadi" }
+yadi_derive = { path = "crates/yadi_derive" }
 
 [package]
 name = "filaco_shell"
@@ -15,10 +32,10 @@ edition = "2024"
 
 [dependencies]
 anyhow = { workspace = true }
-chrono = { version = "0.4" }
-clap = { version = "4", features = ["derive"] }
-hyprland = { version = "0.4.0-beta.3" }
-iced = { git = "https://github.com/pop-os/iced.git", branch = "master", features = [
+chrono = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+hyprland = { workspace = true }
+iced = { workspace = true, features = [
   "advanced",
   "canvas",
   "image",
@@ -28,10 +45,10 @@ iced = { git = "https://github.com/pop-os/iced.git", branch = "master", features
   "wgpu",
   "winit",
 ] }
-iced_aw = { version = "0.12" }
-serde = { version = "1" }
-starship-battery = { version = "0.10" }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-toml = { version = "0.9" }
+iced_aw = { workspace = true }
+serde = { workspace = true }
+starship-battery = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+toml = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
