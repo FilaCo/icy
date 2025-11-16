@@ -1,32 +1,32 @@
-use std::sync::{Arc, OnceLock};
-
-use crate::{
-    factory::Factory,
-    prelude::{Injectable, Registry},
+use std::{
+    any::Any,
+    sync::{Arc, OnceLock},
 };
 
+use crate::prelude::Registry;
+
 #[derive(Debug)]
-pub struct Entry<T: Injectable> {
-    factory: Factory<T>,
-    kind: EntryKind<T>,
+pub struct Entry {
+    factory: fn(&Registry) -> Box<dyn Any>,
+    kind: EntryKind,
 }
 
 #[derive(Debug)]
-enum EntryKind<T: Injectable> {
+enum EntryKind {
     Transient,
-    Lazy(OnceLock<Arc<T>>),
+    Lazy(OnceLock<Arc<dyn Any>>),
 }
 
-impl<T: Injectable> Entry<T> {
-    pub fn lazy(factory: Factory<T>) -> Self {
+impl Entry {
+    pub fn lazy(factory: fn(&Registry) -> Box<dyn Any>) -> Self {
         Self::new(factory, EntryKind::Lazy(OnceLock::new()))
     }
 
-    pub fn transient(factory: Factory<T>) -> Self {
+    pub fn transient(factory: fn(&Registry) -> Box<dyn Any>) -> Self {
         Self::new(factory, EntryKind::Transient)
     }
 
-    pub fn get(&self, registry: &Registry) -> Arc<T> {
+    pub fn get(&self, registry: &Registry) -> Arc<dyn Any> {
         match &self.kind {
             EntryKind::Transient => Arc::new((self.factory)(registry)),
             EntryKind::Lazy(instance) => {
@@ -35,7 +35,7 @@ impl<T: Injectable> Entry<T> {
         }
     }
 
-    fn new(factory: Factory<T>, kind: EntryKind<T>) -> Self {
+    fn new(factory: fn(&Registry) -> Box<dyn Any>, kind: EntryKind) -> Self {
         Self { factory, kind }
     }
 }

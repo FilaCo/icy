@@ -15,7 +15,6 @@ fs_clock = { path = "plugins/fs_clock" }
 
 # third party modules
 yadi = { path = "third_party/yadi" }
-yadi_derive = { path = "third_party/yadi_derive" }
 
 # others
 anyhow = { version = "1" }

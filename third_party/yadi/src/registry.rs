@@ -1,21 +1,22 @@
 use std::{
-    any::{Any, TypeId},
-    collections::BTreeMap,
+    any::{Any, TypeId, type_name},
+    collections::{BTreeMap, HashMap},
     sync::Arc,
 };
 
 use thiserror::Error;
+use tracing::trace;
 
-use crate::{entry::Entry, prelude::Injectable};
+use crate::{entry::Entry, prelude::Tag};
 
 #[derive(Debug)]
 pub struct Registry {
-    inner: BTreeMap<TypeId, Box<dyn Any>>,
+    entries: HashMap<Tag, Entry>,
 }
 
 #[derive(Debug)]
 pub struct RegistryBuilder {
-    inner: BTreeMap<TypeId, Box<dyn Any>>,
+    entries: HashMap<Tag, Entry>,
 }
 
 #[derive(Error, Debug)]
@@ -26,43 +27,26 @@ impl Registry {
         RegistryBuilder::default()
     }
 
-    pub fn resolve<T: Injectable>(&self) -> Arc<T> {
-        self.inner
-            .get(&TypeId::of::<T>())
-            .expect("unable to resolve tag")
-            .downcast_ref::<Entry<T>>()
-            .expect("oopsie, wrong type associated with tag")
-            .get(self)
+    pub fn resolve<T: 'static>(&self) -> Arc<T> {
+        self.resolve_by_tag(&TypeId::of::<T>().into())
     }
 
-    pub(crate) fn new(inner: BTreeMap<TypeId, Box<dyn Any>>) -> Self {
-        Self { inner }
+    pub fn resolve_by_tag<T: 'static>(&self, tag: &Tag) -> Arc<T> {
+        trace!("resolve by tag {} for type: {}", tag, type_name::<T>());
+        self.entries
+            .get(tag)
+            .expect("unable to find an entry")
+            .get(self)
     }
 }
 
 impl RegistryBuilder {
     pub fn new() -> Self {
-        let inner = BTreeMap::new();
-        Self { inner }
+        todo!()
     }
 
     pub fn build(self) -> Result<Registry, RegistryError> {
-        // TODO: validation
-        Ok(Registry::new(self.inner))
-    }
-
-    pub fn register_lazy<T: Injectable>(self) -> Self {
-        self.register(Entry::lazy(T::from_registry))
-    }
-
-    pub fn register_transient<T: Injectable>(self) -> Self {
-        self.register(Entry::transient(T::from_registry))
-    }
-
-    fn register<T: Injectable>(mut self, entry: Entry<T>) -> Self {
-        self.inner.insert(TypeId::of::<T>(), Box::new(entry));
-
-        self
+        todo!()
     }
 }
 

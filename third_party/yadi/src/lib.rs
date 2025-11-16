@@ -1,15 +1,8 @@
 mod entry;
-mod factory;
-pub mod injectable;
 pub mod registry;
+pub mod tag;
 
 pub mod prelude {
-    pub use crate::injectable::*;
     pub use crate::registry::*;
-
-    #[cfg(feature = "derive")]
-    pub use yadi_derive::*;
+    pub use crate::tag::*;
 }
-
-#[cfg(feature = "derive")]
-pub use yadi_derive::*;

@@ -5,7 +5,4 @@ edition = "2024"
 
 [dependencies]
 thiserror = { workspace = true }
-yadi_derive = { workspace = true, optional = true }
-
-[features]
-derive = ["yadi_derive"]
+tracing = { workspace = true }
