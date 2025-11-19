@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["shell/*", "plugins/*", "third_party/*"]
+members = ["shell/*", "plugins/*"]
 
 [workspace.dependencies]
 # shell modules
@@ -12,9 +12,6 @@ fs_plugin_mgr = { path = "shell/fs_plugin_mgr" }
 
 # plugins
 fs_clock = { path = "plugins/fs_clock" }
-
-# third party modules
-yadi = { path = "third_party/yadi" }
 
 # others
 anyhow = { version = "1" }
