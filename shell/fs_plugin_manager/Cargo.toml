@@ -1,5 +1,5 @@
 [package]
-name = "fs_plugin"
+name = "fs_plugin_mgr"
 version = "0.0.0"
 edition = "2024"
 

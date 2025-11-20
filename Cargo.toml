@@ -8,7 +8,7 @@ fs_cli = { path = "shell/fs_cli" }
 fs_feature = { path = "shell/fs_feature" }
 fs_msg = { path = "shell/fs_msg" }
 fs_plugin = { path = "shell/fs_plugin" }
-fs_plugin_mgr = { path = "shell/fs_plugin_mgr" }
+fs_plugin_manager = { path = "shell/fs_plugin_manager" }
 
 # plugins
 fs_clock = { path = "plugins/fs_clock" }
@@ -17,16 +17,13 @@ fs_clock = { path = "plugins/fs_clock" }
 anyhow = { version = "1" }
 chrono = { version = "0.4" }
 clap = { version = "4" }
-dlopen2 = { version = "0.8" }
+extism = { version = "1" }
+extism-pdk = { version = "1" }
 hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
 iced_aw = { version = "0.12" }
-libc = { version = "0.2" }
-proc-macro2 = { version = "1" }
-quote = { version = "1" }
 serde = { version = "1" }
 starship-battery = { version = "0.10" }
-syn = { version = "2" }
 thiserror = { version = "2" }
 tokio = { version = "1" }
 toml = { version = "0.9" }
