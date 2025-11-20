@@ -3,25 +3,20 @@ resolver = "3"
 members = ["shell/*", "plugins/*"]
 
 [workspace.dependencies]
-# shell modules
-fs_cli = { path = "shell/fs_cli" }
+anyhow = { version = "1" }
+chrono = { version = "0.4" }
+clap = { version = "4" }
+ctrlc = { version = "3" }
+extism = { version = "1" }
+extism-pdk = { version = "1" }
 fs_feature = { path = "shell/fs_feature" }
 fs_msg = { path = "shell/fs_msg" }
 fs_plugin = { path = "shell/fs_plugin" }
 fs_plugin_manager = { path = "shell/fs_plugin_manager" }
-
-# plugins
-fs_clock = { path = "plugins/fs_clock" }
-
-# others
-anyhow = { version = "1" }
-chrono = { version = "0.4" }
-clap = { version = "4" }
-extism = { version = "1" }
-extism-pdk = { version = "1" }
 hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
 iced_aw = { version = "0.12" }
+notify = { version = "8" }
 serde = { version = "1" }
 starship-battery = { version = "0.10" }
 thiserror = { version = "2" }

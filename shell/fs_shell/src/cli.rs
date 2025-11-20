@@ -11,6 +11,7 @@ use clap::{
 #[derive(Parser, Debug)]
 #[command(version, about, styles=CLI_STYLING)]
 pub struct Cli {
+    #[arg(short, long)]
     pub config: Option<PathBuf>,
 }
 
