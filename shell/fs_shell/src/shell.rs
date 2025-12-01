@@ -1,37 +1,26 @@
-use std::path::PathBuf;
-
 use clap::Parser;
-use directories::ProjectDirs;
 use thiserror::Error;
 
-use crate::{cli::Cli, config::Config};
+use crate::cli::{Cli, Commands::*};
 
 #[derive(Debug)]
-pub struct Shell {
-    config_path: PathBuf,
-}
+pub struct Shell {}
 
 impl Shell {
     pub fn new() -> Self {
-        let args = Cli::parse();
-
-        let config_path = args.config.unwrap_or(Self::default_config_path());
-
-        Self { config_path }
+        Self {}
     }
 
-    pub fn run(self) -> Result<(), ShellError> {
-        println!("{}", self.config_path.to_str().unwrap());
-        Ok(())
-    }
-
-    fn default_config_path() -> PathBuf {
-        Self::project_dirs().config_local_dir().join("config.toml")
-    }
-
-    fn project_dirs() -> ProjectDirs {
-        ProjectDirs::from("com", "FilaCo", "FilaCo Shell").expect("unable to retrieve project dirs")
-    }
+    // pub fn run(&mut self) -> Result<(), ShellError> {
+    //     match self.args.command.unwrap_or_default() {
+    //         Open { detach } => self.handle_open(detach),
+    //         Close => self.handle_close(),
+    //     }
+    // }
+    //
+    // fn handle_open(&mut self, detach: bool) -> Result<(), ShellError> {}
+    //
+    // fn handle_close(&mut self) -> Result<(), ShellError> {}
 }
 
 impl Default for Shell {

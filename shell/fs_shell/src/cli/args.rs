@@ -1,18 +1,40 @@
-use std::path::PathBuf;
+use std::{default, path::PathBuf};
 
 use clap::{
-    Parser,
+    Parser, Subcommand,
     builder::{
         Styles,
         styling::{AnsiColor, Effects, Style},
     },
 };
 
-#[derive(Parser, Debug)]
+use crate::directories;
+
+#[derive(Parser, Default, Debug)]
 #[command(version, about, styles=CLI_STYLING)]
+#[command(propagate_version = true)]
 pub struct Cli {
-    #[arg(short, long, value_name = "FILE")]
-    pub config: Option<PathBuf>,
+    /// Sets a custom config file
+    #[arg(short, long, value_name = "FILE", default_value=directories::config().join("config.toml").into_os_string())]
+    pub config: PathBuf,
+    #[command(subcommand)]
+    pub command: Option<Commands>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    Open {
+        /// Detached mode: Run icy in the background
+        #[arg(short, long)]
+        detach: bool,
+    },
+    Close,
+}
+
+impl Default for Commands {
+    fn default() -> Self {
+        Self::Open { detach: true }
+    }
 }
 
 // const NOP: Style = Style::new();
