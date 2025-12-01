@@ -7,6 +7,7 @@ anyhow = { version = "1" }
 chrono = { version = "0.4" }
 clap = { version = "4" }
 ctrlc = { version = "3" }
+directories = { version = "6" }
 extism = { version = "1" }
 extism-pdk = { version = "1" }
 fs_feature = { path = "shell/fs_feature" }
@@ -17,6 +18,7 @@ hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
 iced_aw = { version = "0.12" }
 notify = { version = "8" }
+rayon = { version = "1" }
 serde = { version = "1" }
 starship-battery = { version = "0.10" }
 thiserror = { version = "2" }

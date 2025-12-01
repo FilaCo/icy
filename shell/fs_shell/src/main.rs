@@ -1,4 +1,4 @@
-use fs_shell::{prelude::Shell, shell::ShellError};
+use fs_shell::prelude::*;
 
 fn main() -> Result<(), ShellError> {
     Shell::default().run()

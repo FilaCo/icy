@@ -7,6 +7,5 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-extism-pdk = { workspace = true }
 fs_plugin = { workspace = true }
-iced = { workspace = true, features = ["winit", "wayland"] }
+iced = { workspace = true, features = ["winit", "wayland", "advanced"] }
