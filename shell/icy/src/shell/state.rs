@@ -2,8 +2,10 @@ use Shell::*;
 use iced::{Task, window};
 use icy_types::prelude::Message;
 
+#[derive(Debug)]
 pub enum Shell {
     Loading,
+    Loaded(State),
 }
 
 impl Shell {
@@ -15,3 +17,6 @@ impl Shell {
         String::from("icy")
     }
 }
+
+#[derive(Debug)]
+pub struct State {}

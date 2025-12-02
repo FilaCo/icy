@@ -16,6 +16,7 @@ iced_aw = { git = "https://github.com/iced-rs/iced_aw", branch = "main" }
 icy_types = { path = "shell/icy_types" }
 icy_plugin = { path = "shell/icy_plugin" }
 icy_plugin_macros = { path = "shell/icy_plugin_macros" }
+icy_plugin_manager = { path = "shell/icy_plugin_manager" }
 notify = { version = "8" }
 rayon = { version = "1" }
 serde = { version = "1" }

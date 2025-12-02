@@ -1,3 +1,5 @@
+use tracing::info;
+
 use crate::{
     cli::{Cli, Commands},
     shell::Shell,

@@ -1962,6 +1962,10 @@ name = "icy_plugin_macros"
 version = "0.1.0"
 
 [[package]]
+name = "icy_plugin_manager"
+version = "0.1.0"
+
+[[package]]
 name = "icy_types"
 version = "0.1.0"
 
