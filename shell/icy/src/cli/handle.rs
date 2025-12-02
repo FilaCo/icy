@@ -13,11 +13,9 @@ impl Cli {
     }
 
     fn handle_open(&mut self, _: bool) {
-        tracing::error!("wtf!");
-        // TODO: handle error
         iced::daemon(Shell::title, Shell::update, Shell::view)
             .run_with(Shell::new)
-            .expect("something went wrong")
+            .expect("unable to run iced::daemon")
     }
 
     fn handle_close(&mut self) {}

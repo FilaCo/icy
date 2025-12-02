@@ -5,6 +5,9 @@ use tracing_subscriber::{EnvFilter, fmt::Layer, layer::SubscriberExt};
 
 use crate::directories;
 
+/// Initialize tracing for icy.
+/// NOTE: returning a WorkerGuard instance to main is necessary, because it should live until main
+/// finishes the execution.
 pub fn init() -> WorkerGuard {
     let file_appender = tracing_appender::rolling::daily(directories::logs(), "icy.log");
     let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);

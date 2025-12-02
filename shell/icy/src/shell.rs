@@ -9,7 +9,6 @@ pub enum Shell {
 
 impl Shell {
     pub fn new() -> (Self, Task<Message>) {
-        tracing::info!("wtf!1");
         (Self::Loading, Task::none())
     }
 
@@ -18,7 +17,6 @@ impl Shell {
     }
 
     pub fn update(&mut self, msg: Message) -> Task<Message> {
-        tracing::error!("lol");
         Task::none()
     }
 
