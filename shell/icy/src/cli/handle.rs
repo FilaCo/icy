@@ -1,6 +1,9 @@
+use iced_sessionlock::{MultiApplication, settings::Settings};
+
 use crate::{
     cli::{Cli, Commands},
-    shell::State,
+    lock::Lock,
+    shell::Shell,
 };
 
 impl Cli {
@@ -8,14 +11,26 @@ impl Cli {
         match self.command.take().unwrap_or_default() {
             Commands::Open { detach } => self.handle_open(detach),
             Commands::Close => self.handle_close(),
+            Commands::Lock => self.handle_lock(),
         }
     }
 
     fn handle_open(&mut self, _: bool) {
-        iced::daemon(State::title, State::update, State::view)
-            .run_with(State::new)
-            .expect("something went wrong")
+        // TODO: handle error
+        iced_layershell::build_pattern::daemon(
+            Shell::namespace,
+            Shell::update,
+            Shell::view,
+            Shell::remove_id,
+        )
+        .run_with(Shell::new)
+        .expect("something went wrong")
     }
 
     fn handle_close(&mut self) {}
+
+    fn handle_lock(&mut self) {
+        // TODO: handle error
+        Lock::run(Settings::default()).expect("something went wrong")
+    }
 }

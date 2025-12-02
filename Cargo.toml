@@ -11,9 +11,11 @@ directories = { version = "6" }
 extism = { version = "1" }
 extism-pdk = { version = "1" }
 hyprland = { version = "0.4.0-beta.3" }
-iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
+iced = { version = "0.13" }
 iced_aw = { version = "0.12" }
-icy_msg = { path = "shell/icy_msg" }
+iced_layershell = { version = "0.13" }
+iced_sessionlock = { version = "0.13" }
+icy_types = { path = "shell/icy_types" }
 icy_plugin = { path = "shell/icy_plugin" }
 icy_plugin_macros = { path = "shell/icy_plugin_macros" }
 notify = { version = "8" }

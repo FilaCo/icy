@@ -23,6 +23,7 @@ pub enum Commands {
         detach: bool,
     },
     Close,
+    Lock,
 }
 
 impl Default for Commands {

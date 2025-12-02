@@ -7,8 +7,10 @@ edition = "2024"
 clap = { workspace = true, features = ["derive", "string"] }
 ctrlc = { workspace = true }
 directories = { workspace = true }
-iced = { workspace = true, features = ["winit", "wayland", "advanced"] }
-icy_msg = { workspace = true }
+iced = { workspace = true, features = ["tokio"] }
+iced_layershell = { workspace = true }
+iced_sessionlock = { workspace = true }
+icy_types = { workspace = true }
 notify = { workspace = true, features = ["serde"] }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }

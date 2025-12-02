@@ -7,4 +7,4 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-iced = { workspace = true, features = ["winit", "wayland", "advanced"] }
+iced = { workspace = true }
