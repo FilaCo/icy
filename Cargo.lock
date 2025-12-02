@@ -1219,6 +1219,8 @@ dependencies = [
  "clap",
  "ctrlc",
  "directories",
+ "iced",
+ "icy_msg",
  "notify",
  "serde",
  "thiserror 2.0.17",
@@ -1227,6 +1229,18 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
 ]
+
+[[package]]
+name = "icy_msg"
+version = "0.1.0"
+
+[[package]]
+name = "icy_plugin"
+version = "0.1.0"
+
+[[package]]
+name = "icy_plugin_macros"
+version = "0.1.0"
 
 [[package]]
 name = "icy_wallpapers_plugin"
