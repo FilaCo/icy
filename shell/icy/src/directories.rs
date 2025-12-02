@@ -7,7 +7,7 @@ pub fn config() -> &'static Path {
 }
 
 fn project_dirs() -> ProjectDirs {
-    ProjectDirs::from("com", "FilaCo", "FilaCo Shell").expect("unable to retrieve project dirs")
+    ProjectDirs::from("com", "FilaCo", "icy").expect("unable to retrieve project dirs")
 }
 
 static PROJECT_DIRS: LazyLock<ProjectDirs> = LazyLock::new(project_dirs);

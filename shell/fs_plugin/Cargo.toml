@@ -1,8 +1,0 @@
-[package]
-name = "fs_plugin"
-version = "0.0.0"
-edition = "2024"
-
-[dependencies]
-extism-pdk = { workspace = true }
-fs_msg = { workspace = true }

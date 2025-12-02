@@ -1,5 +1,5 @@
 [package]
-name = "fs_dummy_plugin"
+name = "icy_wallpapers_plugin"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,5 +7,4 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-fs_plugin = { workspace = true }
 iced = { workspace = true, features = ["winit", "wayland", "advanced"] }

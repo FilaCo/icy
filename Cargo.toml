@@ -10,10 +10,6 @@ ctrlc = { version = "3" }
 directories = { version = "6" }
 extism = { version = "1" }
 extism-pdk = { version = "1" }
-fs_feature = { path = "shell/fs_feature" }
-fs_msg = { path = "shell/fs_msg" }
-fs_plugin = { path = "shell/fs_plugin" }
-fs_plugin_manager = { path = "shell/fs_plugin_manager" }
 hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/pop-os/iced.git", branch = "master" }
 iced_aw = { version = "0.12" }
