@@ -1,5 +1,5 @@
 use iced::{Element, Task, widget::horizontal_rule, window};
-use icy_types::prelude::ShellMessage;
+use icy_types::prelude::Message;
 
 use Shell::*;
 
@@ -8,21 +8,21 @@ pub enum Shell {
 }
 
 impl Shell {
-    pub fn new() -> (Self, Task<ShellMessage>) {
-        (Loading, Task::none())
+    pub fn new() -> (Self, Task<Message>) {
+        tracing::info!("wtf!1");
+        (Self::Loading, Task::none())
     }
 
-    pub fn namespace(&self) -> String {
+    pub fn title(&self, _: window::Id) -> String {
         String::from("icy")
     }
 
-    pub fn update(&mut self, msg: ShellMessage) -> Task<ShellMessage> {
+    pub fn update(&mut self, msg: Message) -> Task<Message> {
+        tracing::error!("lol");
         Task::none()
     }
 
-    pub fn view(&self, _: window::Id) -> Element<ShellMessage> {
+    pub fn view(&self, id: window::Id) -> Element<Message> {
         horizontal_rule(2).into()
     }
-
-    pub fn remove_id(&mut self, _: window::Id) {}
 }

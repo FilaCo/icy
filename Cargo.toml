@@ -11,10 +11,8 @@ directories = { version = "6" }
 extism = { version = "1" }
 extism-pdk = { version = "1" }
 hyprland = { version = "0.4.0-beta.3" }
-iced = { version = "0.13" }
-iced_aw = { version = "0.12" }
-iced_layershell = { version = "0.13" }
-iced_sessionlock = { version = "0.13" }
+iced = { git = "https://github.com/FilaCo/iced.git", branch = "master" }
+iced_aw = { git = "https://github.com/iced-rs/iced_aw", branch = "main" }
 icy_types = { path = "shell/icy_types" }
 icy_plugin = { path = "shell/icy_plugin" }
 icy_plugin_macros = { path = "shell/icy_plugin_macros" }
@@ -26,4 +24,5 @@ thiserror = { version = "2" }
 tokio = { version = "1" }
 toml = { version = "0.9" }
 tracing = { version = "0.1" }
+tracing-appender = { version = "0.2" }
 tracing-subscriber = { version = "0.3" }
