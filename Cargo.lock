@@ -1942,7 +1942,6 @@ dependencies = [
  "ctrlc",
  "directories",
  "iced",
- "icy_types",
  "notify",
  "serde",
  "thiserror 2.0.17",
@@ -1951,29 +1950,6 @@ dependencies = [
  "tracing",
  "tracing-appender",
  "tracing-subscriber",
-]
-
-[[package]]
-name = "icy_plugin"
-version = "0.1.0"
-
-[[package]]
-name = "icy_plugin_macros"
-version = "0.1.0"
-
-[[package]]
-name = "icy_plugin_manager"
-version = "0.1.0"
-
-[[package]]
-name = "icy_types"
-version = "0.1.0"
-
-[[package]]
-name = "icy_wallpapers_plugin"
-version = "0.1.0"
-dependencies = [
- "iced",
 ]
 
 [[package]]

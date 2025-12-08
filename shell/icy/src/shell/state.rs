@@ -1,22 +1,32 @@
-use Shell::*;
+use std::collections::HashMap;
+
 use iced::{Task, window};
-use icy_types::prelude::Message;
+
+use crate::shell::{Message, feature::WindowFeature};
 
 #[derive(Debug)]
-pub enum Shell {
-    Loading,
-    Loaded(State),
+pub struct Shell {
+    windows_features: HashMap<window::Id, WindowFeature>,
 }
 
 impl Shell {
     pub fn new() -> (Self, Task<Message>) {
-        (Loading, Task::none())
+        let mut tasks = vec![];
+        (
+            Self {
+                windows_features: HashMap::new(),
+            },
+            Task::batch(tasks),
+        )
     }
 
     pub fn title(&self, id: window::Id) -> String {
-        String::from("icy")
+        if let Some(feature) = self.windows_features.get(&id) {
+            match feature {
+                WindowFeature::Edges => todo!(),
+            }
+        } else {
+            String::from("icy")
+        }
     }
 }
-
-#[derive(Debug)]
-pub struct State {}

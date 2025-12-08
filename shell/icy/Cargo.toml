@@ -15,7 +15,6 @@ iced = { workspace = true, features = [
   "winit",
   "wayland",
 ] }
-icy_types = { workspace = true }
 notify = { workspace = true, features = ["serde"] }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }
