@@ -3,12 +3,12 @@ use iced::{
     runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings,
 };
 
-use crate::shell::{feature::edges::Action, util::LayerSurfaceId};
+use crate::shell::{feature::wallpapers::Action, util::LayerSurfaceId};
 
 #[derive(Debug)]
-pub struct Edges {}
+pub struct Wallpapers {}
 
-impl Edges {
+impl Wallpapers {
     pub fn new() -> (Self, Action) {
         (
             Self {},
@@ -16,14 +16,14 @@ impl Edges {
                 id: LayerSurfaceId::unique(),
                 // TODO: size from monitors
                 size: Some((Some(1920), Some(1080))),
-                layer: Layer::Bottom,
-                namespace: "icy::edges".into(),
+                layer: Layer::Background,
+                namespace: "icy::wallpapers".into(),
                 ..Default::default()
             }),
         )
     }
 
     pub fn title(&self) -> String {
-        String::from("edges")
+        String::from("wallpapers")
     }
 }

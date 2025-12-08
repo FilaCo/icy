@@ -2,15 +2,15 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 
-use crate::{cli::style::CLI_STYLING, directories};
+use crate::cli::style::CLI_STYLING;
 
 #[derive(Parser, Default, Debug)]
 #[command(version, about, styles=CLI_STYLING)]
 #[command(propagate_version = true)]
 pub struct Cli {
     /// Sets a custom config file
-    #[arg(short, long, value_name = "FILE", default_value=directories::config().join("config.toml").into_os_string())]
-    pub(crate) config: PathBuf,
+    #[arg(short, long, value_name = "FILE")]
+    pub(crate) config: Option<PathBuf>,
     #[command(subcommand)]
     pub(crate) command: Option<Commands>,
 }

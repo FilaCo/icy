@@ -1,10 +1,10 @@
-mod feature;
+mod action;
 mod message;
 mod state;
 mod update;
-mod util;
 mod view;
 
+pub use action::*;
 pub use message::*;
 pub use state::*;
 pub use update::*;

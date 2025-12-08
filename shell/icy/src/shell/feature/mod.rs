@@ -1,5 +1,5 @@
-mod edges;
-mod window_feature;
+pub mod edges;
+mod layer_surface_feature;
+pub mod wallpapers;
 
-pub use edges::*;
-pub use window_feature::*;
+pub use layer_surface_feature::*;
