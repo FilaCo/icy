@@ -7,6 +7,7 @@ anyhow = { version = "1" }
 chrono = { version = "0.4" }
 clap = { version = "4" }
 ctrlc = { version = "3" }
+daemonize = { version = "0.5" }
 directories = { version = "6" }
 hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/FilaCo/iced.git", branch = "master" }

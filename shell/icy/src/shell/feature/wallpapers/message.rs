@@ -1,4 +1,4 @@
-use crate::shell::util::LayerSurfaceId;
+use crate::util::LayerSurfaceId;
 
 #[derive(Debug, Clone)]
 pub enum Message {

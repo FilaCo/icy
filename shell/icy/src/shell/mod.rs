@@ -2,7 +2,6 @@ mod feature;
 mod message;
 mod state;
 mod update;
-mod util;
 mod view;
 
 pub use message::*;

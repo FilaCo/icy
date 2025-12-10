@@ -1,15 +1,18 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::PathBuf};
 
 use iced::Task;
 
-use crate::shell::{
-    Message,
-    feature::{
-        LayerSurfaceFeature,
-        edges::{self, Edges},
-        wallpapers::{self, Wallpapers},
+use crate::util::LayerSurfaceId;
+use crate::{
+    config::Root,
+    shell::{
+        Message,
+        feature::{
+            LayerSurfaceFeature,
+            edges::{self, Edges},
+            wallpapers::{self, Wallpapers},
+        },
     },
-    util::LayerSurfaceId,
 };
 
 #[derive(Debug)]
@@ -20,7 +23,7 @@ pub struct Shell {
 }
 
 impl Shell {
-    pub fn new() -> (Self, Task<Message>) {
+    pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {
         let mut tasks = vec![];
 
         // Init edges feature

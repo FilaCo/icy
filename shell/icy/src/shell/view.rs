@@ -1,6 +1,7 @@
-use iced::{Element, widget::horizontal_rule};
+use iced::Element;
 
-use crate::shell::{Message, Shell, feature::LayerSurfaceFeature, util::LayerSurfaceId};
+use crate::shell::{Message, Shell, feature::LayerSurfaceFeature};
+use crate::util::LayerSurfaceId;
 
 impl Shell {
     pub fn view(&self, id: LayerSurfaceId) -> Element<Message> {

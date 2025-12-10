@@ -3,7 +3,8 @@ use iced::{
     runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings,
 };
 
-use crate::shell::{feature::edges::Action, util::LayerSurfaceId};
+use crate::shell::feature::edges::Action;
+use crate::util::LayerSurfaceId;
 
 #[derive(Debug)]
 pub struct Edges {}

@@ -6,9 +6,9 @@ use iced::{
 use crate::shell::{
     Message, Shell, edges_action_to_message,
     feature::{LayerSurfaceFeature, edges, wallpapers},
-    util::LayerSurfaceId,
     wallpapers_action_to_message,
 };
+use crate::util::LayerSurfaceId;
 
 impl Shell {
     pub fn update(&mut self, msg: Message) -> Task<Message> {
