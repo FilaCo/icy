@@ -4,7 +4,7 @@ use daemonize::Daemonize;
 use tracing::info;
 
 use crate::{
-    cli::{Cli, Commands},
+    cli::{Cli, IcyCommand},
     directories::config,
     shell::Shell,
 };
@@ -12,9 +12,8 @@ use crate::{
 impl Cli {
     pub async fn handle(&mut self) {
         let config_path = self.config.take().unwrap_or(config().to_path_buf());
-        match self.command.take().unwrap_or_default() {
-            Commands::Shell { attach } => self.handle_shell(config_path, attach),
-            Commands::Lock => self.handle_lock(),
+        match self.command {
+            IcyCommand::Shell { detach } => self.handle_shell(config_path, detach),
         }
     }
 
@@ -30,6 +29,4 @@ impl Cli {
             .run_with(|| Shell::new(config_path))
             .expect("unable to run iced::daemon")
     }
-
-    fn handle_lock(&mut self) {}
 }

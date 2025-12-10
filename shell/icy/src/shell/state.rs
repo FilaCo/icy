@@ -15,8 +15,13 @@ use crate::{
     },
 };
 
+pub enum Shell {
+    LoadingConfig,
+    Loaded(State),
+}
+
 #[derive(Debug)]
-pub struct Shell {
+pub struct State {
     pub layer_surface_features: HashMap<LayerSurfaceId, LayerSurfaceFeature>,
     pub edges: Edges,
     pub wallpapers: Wallpapers,
@@ -24,37 +29,48 @@ pub struct Shell {
 
 impl Shell {
     pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {
-        let mut tasks = vec![];
-
-        // Init edges feature
-        let (edges, edges_action) = Edges::new();
-        tasks.push(edges_action_to_message(edges_action));
-
-        // Init wallpapers feature
-        let (wallpapers, wallpapers_action) = Wallpapers::new();
-        tasks.push(wallpapers_action_to_message(wallpapers_action));
-
         (
-            Self {
-                layer_surface_features: HashMap::new(),
-                edges,
-                wallpapers,
-            },
-            Task::batch(tasks),
+            Self::LoadingConfig,
+            Task::perform(Root::from_file(config_path), Message::ConfigLoaded),
         )
     }
-
-    pub fn title(&self, id: LayerSurfaceId) -> String {
-        if let Some(feature) = self.layer_surface_features.get(&id) {
-            match feature {
-                LayerSurfaceFeature::Edges => self.edges.title(),
-                LayerSurfaceFeature::Wallpapers => self.wallpapers.title(),
-            }
-        } else {
-            String::from("icy")
-        }
-    }
 }
+
+impl State {}
+
+// impl Shell {
+//     pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {
+//         let mut tasks = vec![];
+
+//         // Init edges feature
+//         let (edges, edges_action) = Edges::new();
+//         tasks.push(edges_action_to_message(edges_action));
+
+//         // Init wallpapers feature
+//         let (wallpapers, wallpapers_action) = Wallpapers::new();
+//         tasks.push(wallpapers_action_to_message(wallpapers_action));
+
+//         (
+//             Self {
+//                 layer_surface_features: HashMap::new(),
+//                 edges,
+//                 wallpapers,
+//             },
+//             Task::batch(tasks),
+//         )
+//     }
+
+//     pub fn title(&self, id: LayerSurfaceId) -> String {
+//         if let Some(feature) = self.layer_surface_features.get(&id) {
+//             match feature {
+//                 LayerSurfaceFeature::Edges => self.edges.title(),
+//                 LayerSurfaceFeature::Wallpapers => self.wallpapers.title(),
+//             }
+//         } else {
+//             String::from("icy")
+//         }
+//     }
+// }
 
 pub fn edges_action_to_message(edges_action: edges::Action) -> Task<Message> {
     match edges_action {

@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand};
 
 use crate::cli::style::CLI_STYLING;
 
-#[derive(Parser, Default, Debug)]
+#[derive(Parser, Debug)]
 #[command(version, about, long_about, styles=CLI_STYLING)]
 #[command(propagate_version = true)]
 pub struct Cli {
@@ -12,15 +12,14 @@ pub struct Cli {
     #[arg(short, long, value_name = "FILE")]
     pub config: Option<PathBuf>,
     #[command(subcommand)]
-    pub command: Option<Commands>,
+    pub command: IcyCommand,
 }
 
 #[derive(Subcommand, Debug)]
-pub enum Commands {
+pub enum IcyCommand {
     Shell {
         /// Detach icy shell from the current terminal
         #[arg(short, long)]
-        detached: bool,
+        detach: bool,
     },
-    Lock,
 }

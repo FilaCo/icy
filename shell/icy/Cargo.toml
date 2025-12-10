@@ -1,10 +1,15 @@
 [package]
 name = "icy"
+description = "A simple, yet powerful Wayland status bar"
+license = "MIT or Apache-2.0"
 version = "0.1.0"
 edition = "2024"
-description = """
 
-"""
+[profile.release]
+lto = "thin"
+strip = true
+opt-level = 3
+panic = "abort"
 
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
