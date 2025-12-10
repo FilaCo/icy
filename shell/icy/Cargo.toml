@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
 ctrlc = { workspace = true }
+daemonize = { workspace = true }
 directories = { workspace = true }
 iced = { workspace = true, features = [
   "tokio",

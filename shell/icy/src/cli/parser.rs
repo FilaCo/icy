@@ -18,9 +18,9 @@ pub struct Cli {
 #[derive(Subcommand, Debug)]
 pub enum Commands {
     Open {
-        /// Detached mode: Run icy in the background
+        /// Attached mode: Run icy in the current terminal
         #[arg(short, long)]
-        detach: bool,
+        attach: bool,
     },
     Close,
     Lock,
@@ -28,6 +28,6 @@ pub enum Commands {
 
 impl Default for Commands {
     fn default() -> Self {
-        Self::Open { detach: true }
+        Self::Open { attach: false }
     }
 }
