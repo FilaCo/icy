@@ -11,9 +11,7 @@ pub struct Root {
 }
 
 impl Root {
-    pub async fn from_file(config_path: PathBuf) -> Self {
-        todo!()
-    }
+    pub async fn from_file(config_path: PathBuf) -> Self {}
 }
 
 impl FromRef<Root> for LookAndFeel {

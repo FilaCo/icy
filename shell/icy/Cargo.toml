@@ -24,7 +24,7 @@ iced = { workspace = true, features = [
   "winit",
   "wayland",
 ] }
-notify = { workspace = true, features = ["serde"] }
+inotify = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }
 toml = { workspace = true }

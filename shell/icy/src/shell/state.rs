@@ -1,6 +1,6 @@
 use std::{collections::HashMap, path::PathBuf};
 
-use iced::Task;
+use iced::{Subscription, Task};
 
 use crate::util::LayerSurfaceId;
 use crate::{
@@ -14,7 +14,9 @@ use crate::{
         },
     },
 };
+use Shell::*;
 
+#[derive(Debug)]
 pub enum Shell {
     LoadingConfig,
     Loaded(State),
@@ -30,13 +32,45 @@ pub struct State {
 impl Shell {
     pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {
         (
-            Self::LoadingConfig,
-            Task::perform(Root::from_file(config_path), Message::ConfigLoaded),
+            LoadingConfig,
+            Task::perform(Root::from_file(config_path.clone()), move |config| {
+                Message::ConfigLoaded {
+                    config_path: config_path.clone(),
+                    config,
+                }
+            }),
         )
+    }
+
+    pub fn title(&self, id: LayerSurfaceId) -> String {
+        match self {
+            LoadingConfig => String::from("icy"),
+            Loaded(state) => state.title(id),
+        }
+    }
+
+    pub fn subscription(&self) -> Subscription<Message> {
+        match self {
+            LoadingConfig => Subscription::none(),
+            Loaded(state) => state.subscription(),
+        }
     }
 }
 
-impl State {}
+impl State {
+    pub fn new() -> (Self, Task<Message>) {}
+
+    pub fn title(&self, id: LayerSurfaceId) -> String {
+        let Some(feature) = self.layer_surface_features.get(&id) else {
+            return String::from("icy");
+        };
+
+        match feature {
+            LayerSurfaceFeature::Edges => self.edges.title(),
+            LayerSurfaceFeature::Wallpapers => self.wallpapers.title(),
+        }
+    }
+}
 
 // impl Shell {
 //     pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {

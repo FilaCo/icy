@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use iced::runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings;
 
 use crate::config::Root;
@@ -6,7 +8,10 @@ use crate::util::LayerSurfaceId;
 
 #[derive(Debug, Clone)]
 pub enum Message {
-    ConfigLoaded(Root),
+    ConfigLoaded {
+        config_path: PathBuf,
+        config: Root,
+    },
     OpenLayerSurface {
         feat: LayerSurfaceFeature,
         settings: SctkLayerSurfaceSettings,

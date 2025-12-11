@@ -12,7 +12,7 @@ directories = { version = "6" }
 hyprland = { version = "0.4.0-beta.3" }
 iced = { git = "https://github.com/FilaCo/iced.git", branch = "master" }
 iced_aw = { git = "https://github.com/iced-rs/iced_aw", branch = "main" }
-notify = { version = "8" }
+inotify = { version = "0.11" }
 serde = { version = "1" }
 starship-battery = { version = "0.10" }
 thiserror = { version = "2" }
