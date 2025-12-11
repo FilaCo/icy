@@ -1,24 +1,23 @@
-[package]
-name = "filaco_shell"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+resolver = "3"
+members = ["shell/*"]
 
-[dependencies]
+[workspace.dependencies]
 anyhow = { version = "1" }
 chrono = { version = "0.4" }
-clap = { version = "4", features = ["derive"] }
+clap = { version = "4" }
+ctrlc = { version = "3" }
+daemonize = { version = "0.5" }
+directories = { version = "6" }
 hyprland = { version = "0.4.0-beta.3" }
-iced = { git = "https://github.com/pop-os/iced.git", branch = "master", features = [
-  "multi-window",
-  "tokio",
-  "wayland",
-  "wgpu",
-  "winit",
-] }
-iced_aw = { version = "0.12" }
+iced = { git = "https://github.com/FilaCo/iced.git", branch = "master" }
+iced_aw = { git = "https://github.com/iced-rs/iced_aw", branch = "main" }
+inotify = { version = "0.11" }
 serde = { version = "1" }
 starship-battery = { version = "0.10" }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+thiserror = { version = "2" }
+tokio = { version = "1" }
 toml = { version = "0.9" }
 tracing = { version = "0.1" }
+tracing-appender = { version = "0.2" }
 tracing-subscriber = { version = "0.3" }
