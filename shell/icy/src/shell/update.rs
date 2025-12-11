@@ -1,16 +1,54 @@
+use std::path::PathBuf;
+
 use iced::{
     Task, platform_specific::shell::commands::layer_surface::get_layer_surface,
     runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings,
 };
 
-use crate::shell::{
-    Message, Shell, edges_action_to_message,
-    feature::{LayerSurfaceFeature, edges, wallpapers},
-    wallpapers_action_to_message,
-};
 use crate::util::LayerSurfaceId;
+use crate::{
+    config::Root,
+    shell::{
+        Message, Shell, State, edges_action_to_message,
+        feature::{LayerSurfaceFeature, edges, wallpapers},
+        wallpapers_action_to_message,
+    },
+};
+
+use Shell::*;
 
 impl Shell {
+    pub fn update(&mut self, msg: Message) -> Task<Message> {
+        if let Message::ReloadConfig(config_path) = msg {
+            return self.reload_config(config_path);
+        }
+
+        match self {
+            Shell::LoadingConfig => match msg {
+                Message::ConfigLoaded {
+                    config_path,
+                    config,
+                } => self.config_loaded(config_path, config),
+                _ => Task::none(),
+            },
+            Shell::Loaded(state) => state.update(msg),
+        }
+    }
+
+    fn reload_config(&mut self, config_path: PathBuf) -> Task<Message> {
+        let (state, task) = Shell::new(config_path);
+        *self = state;
+        task
+    }
+
+    fn config_loaded(&mut self, config_path: PathBuf, config: Root) -> Task<Message> {
+        let (inner, task) = State::new(config_path, config);
+        *self = Loaded(inner);
+        task
+    }
+}
+
+impl State {
     pub fn update(&mut self, msg: Message) -> Task<Message> {
         match msg {
             Message::OpenLayerSurface { feat, settings } => self.open_surface(feat, settings),
@@ -19,6 +57,7 @@ impl Shell {
             Message::Wallpapers(wallpapers_msg) => {
                 wallpapers_action_to_message(self.wallpapers.update(wallpapers_msg))
             }
+            _ => Task::none(),
         }
     }
 

@@ -24,6 +24,7 @@ pub enum Shell {
 
 #[derive(Debug)]
 pub struct State {
+    pub config_path: PathBuf,
     pub layer_surface_features: HashMap<LayerSurfaceId, LayerSurfaceFeature>,
     pub edges: Edges,
     pub wallpapers: Wallpapers,
@@ -58,7 +59,25 @@ impl Shell {
 }
 
 impl State {
-    pub fn new() -> (Self, Task<Message>) {}
+    pub fn new(config_path: PathBuf, config: Root) -> (Self, Task<Message>) {
+        let mut tasks = vec![];
+
+        let (edges, edges_action) = Edges::new();
+        tasks.push(edges_action_to_message(edges_action));
+
+        let (wallpapers, wallpapers_action) = Wallpapers::new();
+        tasks.push(wallpapers_action_to_message(wallpapers_action));
+
+        (
+            Self {
+                config_path,
+                layer_surface_features: HashMap::new(),
+                edges,
+                wallpapers,
+            },
+            Task::batch(tasks),
+        )
+    }
 
     pub fn title(&self, id: LayerSurfaceId) -> String {
         let Some(feature) = self.layer_surface_features.get(&id) else {
@@ -70,41 +89,11 @@ impl State {
             LayerSurfaceFeature::Wallpapers => self.wallpapers.title(),
         }
     }
+
+    pub fn subscription(&self) -> Subscription<Message> {
+        Subscription::batch(vec![])
+    }
 }
-
-// impl Shell {
-//     pub fn new(config_path: PathBuf) -> (Self, Task<Message>) {
-//         let mut tasks = vec![];
-
-//         // Init edges feature
-//         let (edges, edges_action) = Edges::new();
-//         tasks.push(edges_action_to_message(edges_action));
-
-//         // Init wallpapers feature
-//         let (wallpapers, wallpapers_action) = Wallpapers::new();
-//         tasks.push(wallpapers_action_to_message(wallpapers_action));
-
-//         (
-//             Self {
-//                 layer_surface_features: HashMap::new(),
-//                 edges,
-//                 wallpapers,
-//             },
-//             Task::batch(tasks),
-//         )
-//     }
-
-//     pub fn title(&self, id: LayerSurfaceId) -> String {
-//         if let Some(feature) = self.layer_surface_features.get(&id) {
-//             match feature {
-//                 LayerSurfaceFeature::Edges => self.edges.title(),
-//                 LayerSurfaceFeature::Wallpapers => self.wallpapers.title(),
-//             }
-//         } else {
-//             String::from("icy")
-//         }
-//     }
-// }
 
 pub fn edges_action_to_message(edges_action: edges::Action) -> Task<Message> {
     match edges_action {

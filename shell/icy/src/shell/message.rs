@@ -12,6 +12,7 @@ pub enum Message {
         config_path: PathBuf,
         config: Root,
     },
+    ReloadConfig(PathBuf),
     OpenLayerSurface {
         feat: LayerSurfaceFeature,
         settings: SctkLayerSurfaceSettings,
